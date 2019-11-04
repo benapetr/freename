@@ -1,0 +1,2 @@
+#!/bin/sh
+gcc -g str_replace.c freename.c -o freename
