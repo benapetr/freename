@@ -81,7 +81,6 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    int return_code = 0;
     int c;
     while ((c = getopt_long(argc, argv, "h", long_opts, NULL)) != -1)
     {
@@ -95,6 +94,5 @@ int main(int argc, char **argv)
     }
 
     printf("%s\n", find_name(argv[optind]));
-
-    return return_code;
+    return 0;
 }
