@@ -15,7 +15,6 @@
  */
 
 #include <stdio.h>
-#include <sys/types.h>
 #include <stdlib.h>
 #include <getopt.h>
 #include <unistd.h>
@@ -27,6 +26,7 @@
 #define PROGRAM_NAME "freename"
 
 #define AUTHORS "Petr Bena"
+#define VERSION "1.0"
 
 /* First number to start counter with */
 int opt_counter_first = 0;
@@ -36,8 +36,14 @@ int opt_method = METHOD_COUNTER;
 static struct option const long_opts[] =
 {
     {"help", no_argument, NULL, 'h'},
+    {"version", no_argument, NULL, 'v'},
     {NULL, 0, NULL, 0}
 };
+
+void version()
+{
+    printf("%s v. %s\n", PROGRAM_NAME, VERSION);
+}
 
 void usage()
 {
@@ -90,7 +96,7 @@ int main(int argc, char **argv)
     }
 
     int c;
-    while ((c = getopt_long(argc, argv, "h", long_opts, NULL)) != -1)
+    while ((c = getopt_long(argc, argv, "hv", long_opts, NULL)) != -1)
     {
         switch (c)
         {
@@ -98,6 +104,12 @@ int main(int argc, char **argv)
             case OPT_HELP:
                 usage();
                 return 0;
+            case 'v':
+                version();
+                return 0;
+            case '?':
+                usage();
+                return 2;
         }
     }
 
