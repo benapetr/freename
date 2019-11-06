@@ -49,7 +49,7 @@ int is_free(char *path)
     return (access(path, F_OK) == -1);
 }
 
-char *construct_new_name(char *name, int counter)
+char *replace_counter_with_number(char *name, int counter)
 {
     char strcounter[10];
     snprintf(strcounter, 10, "%d", counter);
@@ -58,17 +58,25 @@ char *construct_new_name(char *name, int counter)
 
 char *find_name(char *path)
 {
-    if (is_free(path))
-        return path;
+    /* first check if $counter is present, if yes replace it with 0 and then check the file name */
     if (strstr(path, "$counter") == NULL)
+    {
+        if (is_free(path))
+            return path;
         strcat(path, ".$counter");
+    } else
+    {
+        char *zc = replace_counter_with_number(path, 0);
+        if (is_free(zc))
+            return zc;
+    }
     int current_counter = opt_counter_first;
-    char *current_name = construct_new_name(path, current_counter);
+    char *current_name = replace_counter_with_number(path, current_counter);
     while (!is_free(current_name))
     {
         current_counter++;
         free(current_name);
-        current_name = construct_new_name(path, current_counter);
+        current_name = replace_counter_with_number(path, current_counter);
     }
     return current_name;
 }

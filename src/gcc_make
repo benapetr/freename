@@ -1,2 +1,5 @@
 #!/bin/sh
-gcc -g str_replace.c freename.c -o freename
+gcc -g str_replace.c freename.c -o freename || exit 1
+
+echo "To install, run:"
+echo "sudo cp freename /usr/local/bin/"
